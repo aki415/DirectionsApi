@@ -37,6 +37,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.random.Random
+//imports
 import com.example.mapstemplate.DirectionsApiResponse
 import com.example.mapstemplate.DirectionsApiService
 
@@ -67,9 +68,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var highSafetyAreas : ArrayList<Polygon>
     private lateinit var mediumSafetyAreas : ArrayList<Polygon>
     private lateinit var lowSafetyAreas : ArrayList<Polygon>
-
+/////////////////////////////////////////////////////////////////////////////
     private val trinity = LatLng(53.343792, -6.254572)
     private val destination = LatLng(53.343792, -8.254572)
+///////////////////////////////////////////////////////////////////////////////////
     //Variable for Log.i messages
     private val thisName = "MapsActivity"
     private lateinit var LatLngs : ArrayList<LatLng>
@@ -188,6 +190,8 @@ private fun createRetrofitInstance(): Retrofit {
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+     
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Function to request route information from directions api
     private fun drawPolyline(polylineString: String) {
         val polylinePoints = PolyUtil.decode(polylineString)
@@ -199,7 +203,7 @@ private fun createRetrofitInstance(): Retrofit {
         mMap.addPolyline(polylineOptions)
     }
 
-    //Finish
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Temporary changes made to help understanding of manipulating the camera
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
@@ -210,7 +214,9 @@ private fun createRetrofitInstance(): Retrofit {
             .zoom(11f)
             .build()
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(temp))
+        /////////////////////////Call function
         getDirectionsAndDrawRoute(trinity, destination)
+        /////////////////////////////////////////
         mMap.setOnMapClickListener {
             //val pointsList
             //pointsList.add(it)
@@ -222,7 +228,7 @@ private fun createRetrofitInstance(): Retrofit {
     }
 
 
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private fun getDirectionsAndDrawRoute(origin: LatLng, destination: LatLng) {
             // Use the Google Maps API key from your AndroidManifest.xml
             mMap.addMarker(MarkerOptions().position(origin))
@@ -276,7 +282,7 @@ private fun createRetrofitInstance(): Retrofit {
 
         //mMap.animateCamera(CameraUpdateFactory.zoomTo(10f), 2000, null)
     }
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     private fun searchPlace(name: String){
