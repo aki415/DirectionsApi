@@ -36,6 +36,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.net.HttpURLConnection
 import java.net.URL
+//
 import kotlin.random.Random
 //imports
 import com.example.mapstemplate.DirectionsApiResponse
@@ -70,6 +71,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var lowSafetyAreas : ArrayList<Polygon>
 /////////////////////////////////////////////////////////////////////////////
     private val trinity = LatLng(53.343792, -6.254572)
+    //sample destination
     private val destination = LatLng(53.343792, -8.254572)
 ///////////////////////////////////////////////////////////////////////////////////
     //Variable for Log.i messages
@@ -78,8 +80,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var LatLngsRed : ArrayList<LatLng>
     val tempHardCodedArray = Array(10) { Array(10) { LatLng(0.0, 0.0) } }
     private var counter : Int = 1
+ // Edited by Genevieve 
 /////////////////////////////////////////////////////////////////
-
+// Retrofit instance configured with a base URL and a converter factory for JSON deserialisation
+//Makes instance for making API requests to the Google Maps APIs. 
 private fun createRetrofitInstance(): Retrofit {
     return Retrofit.Builder()
         .baseUrl("https://maps.googleapis.com/maps/api/")
@@ -190,9 +194,10 @@ private fun createRetrofitInstance(): Retrofit {
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
-     
+    //Edited by Genevieve 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Function to request route information from directions api
+//This Draws a polyline on a Google Map 
+//using a polyline string from the Google Maps Directions AP
     private fun drawPolyline(polylineString: String) {
         val polylinePoints = PolyUtil.decode(polylineString)
         val polylineOptions = PolylineOptions()
@@ -227,33 +232,41 @@ private fun createRetrofitInstance(): Retrofit {
         }
     }
 
-
+//Edited by Genevieve
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// defines a private function named getDirectionsAndDrawRoute, 
+//which takes two LatLng parameters representing the origin and destination points.        
         private fun getDirectionsAndDrawRoute(origin: LatLng, destination: LatLng) {
-            // Use the Google Maps API key from your AndroidManifest.xml
+            // Use the Google Maps API key from AndroidManifest.xml
             mMap.addMarker(MarkerOptions().position(origin))
             mMap.addMarker(MarkerOptions().position(destination))
 
             val apiKey = "AIzaSyAFNpCw7wcRqIB73JwgO7w7KcSF2M3dsF4"
-
+//string representation of the origin coordinates, formatted as latitude,longitude
             val originString = "${origin.latitude},$origin.longitude}"
+            //For destination
             val destinationString = "${destination.latitude},${destination.longitude}"
-
+// calls the previously defined createRetrofitInstance()
+//function to create a Retrofit instance for making API requests.
             val retrofit = createRetrofitInstance()
             val directionsApiService = retrofit.create(DirectionsApiService::class.java)
-
+//launches a coroutine on the Dispatchers.IO dispatcher to perform the network request asynchronously.
             CoroutineScope(Dispatchers.IO).launch {
-                try {
+                //This starts a try block to catch any exceptions that may occur during the network request
+               try {
+               //makes the API request to get the directions between the origin and destination points 
+               //using the DirectionsApiService instance.
                     val response = directionsApiService.getDirections(originString, destinationString, apiKey)
+                    //checks if the API request was successful
                     if (response.isSuccessful) {
                         val directions = response.body()
                         if (directions != null) {
                             // Use the first route from the response
                             val route = directions.routes.firstOrNull()
-
+                             checks if a valid route is available
                             if (route != null) {
                                 val polyline = route.legs.firstOrNull()?.steps?.map { it.polyline.points }?.joinToString(separator = "")
-
+                                // checks if there is a valid polyline string
                                 if (polyline != null) {
                                     withContext(Dispatchers.Main) {
                                         drawPolyline(polyline)
@@ -261,7 +274,8 @@ private fun createRetrofitInstance(): Retrofit {
                                 }
                             }
                         }
-                    } else {
+                        //else block that will execute if the API request was not successful.
+                        } else {
                         withContext(Dispatchers.Main) {
                             Toast.makeText(
                                 this@MapsActivity,
@@ -270,9 +284,12 @@ private fun createRetrofitInstance(): Retrofit {
                             ).show()
                         }
                     }
+                    //catch block to handle any exceptions that may occur during the network request
                 } catch (e: Exception) {
                     withContext(Dispatchers.Main) {
+                    //displays a toast message with the exception message
                         Toast.makeText(this@MapsActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                    //Finish
                     }
                 }
             }
