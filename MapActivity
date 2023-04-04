@@ -72,7 +72,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 /////////////////////////////////////////////////////////////////////////////
     private val trinity = LatLng(53.343792, -6.254572)
     //sample destination
-    private val destination = LatLng(53.343792, -8.254572)
+     private val destination = LatLng(53.344999, -6.259663)
 ///////////////////////////////////////////////////////////////////////////////////
     //Variable for Log.i messages
     private val thisName = "MapsActivity"
@@ -220,7 +220,7 @@ private fun createRetrofitInstance(): Retrofit {
             .build()
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(temp))
         /////////////////////////Call function
-        getDirectionsAndDrawRoute(trinity, destination)
+        getDirectionsAndDrawRoute(destination)
         /////////////////////////////////////////
         mMap.setOnMapClickListener {
             //val pointsList
@@ -236,14 +236,14 @@ private fun createRetrofitInstance(): Retrofit {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // defines a private function named getDirectionsAndDrawRoute, 
 //which takes two LatLng parameters representing the origin and destination points.        
-        private fun getDirectionsAndDrawRoute(origin: LatLng, destination: LatLng) {
+        private fun getDirectionsAndDrawRoute(destination: LatLng) {
             // Use the Google Maps API key from AndroidManifest.xml
-            mMap.addMarker(MarkerOptions().position(origin))
+            mMap.addMarker(MarkerOptions().position(trinity))
             mMap.addMarker(MarkerOptions().position(destination))
-
+//changed api key
             val apiKey = "AIzaSyAFNpCw7wcRqIB73JwgO7w7KcSF2M3dsF4"
 //string representation of the origin coordinates, formatted as latitude,longitude
-            val originString = "${origin.latitude},$origin.longitude}"
+            val originString = "${trinity.latitude},$trinity.longitude}"
             //For destination
             val destinationString = "${destination.latitude},${destination.longitude}"
 // calls the previously defined createRetrofitInstance()
