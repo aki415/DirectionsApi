@@ -83,7 +83,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var distanceTextView: TextView
     //Search results
     private lateinit var searchResult : ArrayList<String>
-
+///////////////////////////////////////////////////I
     //List of points
     private lateinit var highSafetyAreasOptions : ArrayList<PolygonOptions>
     private lateinit var mediumSafetyAreasOptions : ArrayList<PolygonOptions>
@@ -149,11 +149,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-
+///////////////////////////////////////////////////////////////////////
         searchButton = findViewById(R.id.my_button)
         searchContent = findViewById(R.id.searchText)
         //locateButton = findViewById(R.id.locateButton)
-
+//////////////////////////////////////////////////////////////////////
         searchButton.setOnClickListener{
             val searchData : String = searchContent.text.toString()
             searchPlace("Trinity");
@@ -284,6 +284,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             Log.i("MyTag", "ATTEMPTING TO DRAW LINE AS MODE WAS SET TO BE HIGH!!!")
             drawPath()
         }
+        ////////////////////////////////////////////////////////////////////////////////////////
         /////////////////////////Call function
         //getDirectionsAndDrawRoute(destination)
         /////////////////////////////////////////
@@ -356,7 +357,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
     }
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////
     private fun locationPermission(): Boolean{
         // checks if Coarse or Fine are allowed
         if (
@@ -489,7 +490,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
 
-    // private function to get directions
+  /////////////////////////////////////////// private function to get directions
 private fun getDirections(origin: LatLng, destination: LatLng, onResult: (String?) -> Unit) {
     val apiKey = "AIzaSyAFNpCw7wcRqIB73JwgO7w7KcSF2M3dsF4"
     val url = "https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}&destination=${destination.latitude},${destination.longitude}&key=$apiKey"
@@ -603,7 +604,7 @@ private fun getDirections(origin: LatLng, destination: LatLng, onResult: (String
     }
 
 
-
+/////////////////////////////////////////////////////////////////////////////
 
     private fun searchPlace(name: String){
         var result = ""
@@ -637,7 +638,7 @@ private fun getDirections(origin: LatLng, destination: LatLng, onResult: (String
             //Log.i("PlacesAPIExtra", result)
         }
     }
-
+//////////////////////////////////////////////////////////////////////////////////////
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater : MenuInflater = menuInflater
         inflater.inflate(R.menu.settings_menu, menu)
